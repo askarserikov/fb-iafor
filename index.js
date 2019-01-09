@@ -30,11 +30,7 @@ app.post('/webhook', (req, res) => {
       let webhook_event = entry.messaging[0];
       let sender_psid = webhook_event.sender.id;
 
-      if (webhook_event.message) {
-        handleMessage(sender_psid, webhook_event.message);
-      } else {
-        console.log("Not a message");
-      }
+      handleMessage(sender_psid);
     });
 
     // Returns a '200 OK' response to all requests
@@ -78,16 +74,10 @@ app.get('/webhook', (req, res) => {
 
 
 
-function handleMessage(sender_psid, received_message) {
+function handleMessage(sender_psid) {
 
-  let response;
-
-  // Check if the message contains text
-  if (received_message.text) {
-    // Create the payload for a basic text message
-    response = {
-      "text": `Hello! Thank you for your interest!\n\nPlease contact us using the following email: info@iafor.com`
-    }
+  let response = {
+    "text": `Hello! Thank you for your interest!\n\nPlease contact us using the following email: info@iafor.com`
   }
 
   // Sends the response message
@@ -113,9 +103,9 @@ function callSendAPI(sender_psid, response) {
     "json": request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log('message sent!')
+      console.log('Message sent')
     } else {
-      console.error("Unable to send message:" + err);
+      console.error("Unable to send message: " + err);
     }
   });
 }
