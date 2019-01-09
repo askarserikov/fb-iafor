@@ -6,6 +6,7 @@ const
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
+  request = require('request');
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 7000, () => console.log('webhook is listening'));
@@ -19,6 +20,7 @@ app.post('/webhook', (req, res) => {
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
+    console.log("Checking the PAGE_ACCESS_TOKEN" + PAGE_ACCESS_TOKEN);
 
     // Iterates over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
@@ -29,7 +31,10 @@ app.post('/webhook', (req, res) => {
       console.log(webhook_event);
 
       if (webhook_event.message) {
+        console.log("It is indeed a message!");
         handleMessage(sender_psid, webhook_event.message);
+      } else {
+        console.log("It is not a message!");
       }
     });
 
@@ -80,7 +85,7 @@ function handleMessage(sender_psid, received_message) {
 
   // Check if the message contains text
   if (received_message.text) {
-    console.log("I've received the following" + received_message.text);
+    console.log("I've received the following " + received_message.text);
     // Create the payload for a basic text message
     response = {
       "text": `Hello! Thank you for your interest!\n\nPlease contact us using the following email: info@iafor.com`
@@ -101,8 +106,6 @@ function callSendAPI(sender_psid, response) {
     },
     "message": response
   }
-
-  console.log("Checking the PAGE_ACCESS_TOKEN" + PAGE_ACCESS_TOKEN);
 
   // Send the HTTP request to the Messenger Platform
   request({
