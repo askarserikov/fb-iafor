@@ -80,7 +80,7 @@ function handleMessage(sender_psid, received_message) {
 
   // Check if the message contains text
   if (received_message.text) {
-
+    console.log("I've received the following" + received_message.text);
     // Create the payload for a basic text message
     response = {
       "text": `Hello! Thank you for your interest!\n\nPlease contact us using the following email: info@iafor.com`
@@ -101,6 +101,8 @@ function callSendAPI(sender_psid, response) {
     },
     "message": response
   }
+
+  console.log("Checking the PAGE_ACCESS_TOKEN" + PAGE_ACCESS_TOKEN);
 
   // Send the HTTP request to the Messenger Platform
   request({
