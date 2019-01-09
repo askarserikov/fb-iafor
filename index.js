@@ -29,8 +29,9 @@ app.post('/webhook', (req, res) => {
       let webhook_event = entry.messaging[0];
       let sender_psid = webhook_event.sender.id;
       console.log(webhook_event);
-
-      handleMessage(sender_psid);
+      if (webhook_event.message) {
+        handleMessage(sender_psid);
+      }
     });
 
     // Returns a '200 OK' response to all requests
