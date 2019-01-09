@@ -20,7 +20,6 @@ app.post('/webhook', (req, res) => {
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
-    console.log(PAGE_ACCESS_TOKEN);
 
     // Iterates over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
@@ -29,6 +28,7 @@ app.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
       let sender_psid = webhook_event.sender.id;
+      console.log(webhook_event);
 
       handleMessage(sender_psid);
     });
@@ -48,7 +48,7 @@ app.post('/webhook', (req, res) => {
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
-  let VERIFY_TOKEN = "rayonsan"
+  let VERIFY_TOKEN = "rayonsan";
 
   // Parse the query params
   let mode = req.query['hub.mode'];
