@@ -28,13 +28,12 @@ app.post('/webhook', (req, res) => {
       // Gets the message. entry.messaging is an array, but
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
-      console.log(webhook_event.message);
+      let sender_psid = webhook_event.sender.id;
 
       if (webhook_event.message) {
-        console.log("It is indeed a message!");
-        handleMessage(webhook_event.sender_psid, webhook_event.message);
+        handleMessage(sender_psid, webhook_event.message);
       } else {
-        console.log("It is not a message!");
+        console.log("Not a message");
       }
     });
 
@@ -85,7 +84,6 @@ function handleMessage(sender_psid, received_message) {
 
   // Check if the message contains text
   if (received_message.text) {
-    console.log("I've received the following " + received_message.text);
     // Create the payload for a basic text message
     response = {
       "text": `Hello! Thank you for your interest!\n\nPlease contact us using the following email: info@iafor.com`
