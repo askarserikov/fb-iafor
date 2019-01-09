@@ -32,7 +32,7 @@ app.post('/webhook', (req, res) => {
 
       if (webhook_event.message) {
         console.log("It is indeed a message!");
-        handleMessage(sender_psid, webhook_event.message);
+        handleMessage(webhook_event.sender_psid, webhook_event.message);
       } else {
         console.log("It is not a message!");
       }
