@@ -1,8 +1,8 @@
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 'use strict';
 
 // Imports dependencies and set up http server
 const
+  PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
   express = require('express'),
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
@@ -20,7 +20,7 @@ app.post('/webhook', (req, res) => {
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
-    console.log("Checking the PAGE_ACCESS_TOKEN" + PAGE_ACCESS_TOKEN);
+    console.log(PAGE_ACCESS_TOKEN);
 
     // Iterates over each entry - there may be multiple if batched
     body.entry.forEach(function(entry) {
@@ -28,7 +28,7 @@ app.post('/webhook', (req, res) => {
       // Gets the message. entry.messaging is an array, but
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      console.log(webhook_event.message);
 
       if (webhook_event.message) {
         console.log("It is indeed a message!");
